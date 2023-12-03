@@ -1,5 +1,6 @@
 import express from 'express';
 import dotEnv from 'dotenv';
+import userRouter from './routes/userRoute.js';
 
 dotEnv.config();
 
@@ -9,11 +10,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 
-app.get('/', (req, res) => {
-    res.send('Hello Route')
-})
+// Use the middleware functions to route ex- usrRouter.
+app.use("/api/user", userRouter)
 
-//Error handling middleware
+
+//Error handling middleware sends JSON response with the eror details. 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal server error';
@@ -27,6 +28,7 @@ app.use((err, req, res, next) => {
     })
 })
 
+// Start the express server and listen to specific port.
 app.listen(PORT, () => {
     console.log(`App is Listening on port: ${PORT}`)
 })
